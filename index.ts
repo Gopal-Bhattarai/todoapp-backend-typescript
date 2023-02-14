@@ -1,8 +1,15 @@
 import express, {Express, Request, Response} from "express";
 import dotenv from 'dotenv'
 import { DataSource } from 'typeorm';
+import cors from 'cors';
+import bodyParser from 'body-parser';
 
 dotenv.config();
+
+const app: Express = express();
+app.use(bodyParser.json());
+
+app.use(cors());
 
 export const AppDataSource = new DataSource({
   type: 'mysql',
@@ -13,7 +20,6 @@ export const AppDataSource = new DataSource({
   database: process.env.MYSQL_DB,
   synchronize: true,
 });
-const app: Express = express();
 
 const PORT = process.env.PORT;
 
