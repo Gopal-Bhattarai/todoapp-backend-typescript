@@ -1,9 +1,10 @@
-import express, {Express, Request, Response} from "express";
-import dotenv from 'dotenv'
+import express, { Express } from 'express';
+import dotenv from 'dotenv';
 import { DataSource } from 'typeorm';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import { Task } from './src/tasks/tasks.entity';
+import { tasksRouter } from './src/tasks/tasks.router';
 
 dotenv.config();
 
@@ -25,10 +26,6 @@ export const AppDataSource = new DataSource({
 
 const PORT = process.env.PORT;
 
-app.get('/', (req: Request, res: Response) => {
-  res.status(200).json({ GET: 'Hello, Server is running...' });
-});
-
 AppDataSource.initialize()
   .then(() => {
     // app.listen(PORT)
@@ -38,3 +35,4 @@ AppDataSource.initialize()
   })
   .catch((err) => console.log(err));
 
+app.use('/', tasksRouter);
